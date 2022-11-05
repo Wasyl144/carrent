@@ -14,6 +14,12 @@ run:
 install:
 	docker compose exec --user www backend composer install
 
+swagger:
+	docker compose exec --user www backend php artisan l5-swagger:generate
+
+cs-fixer:
+	docker compose exec --user www backend ./vendor/bin/php-cs-fixer fix
+
 bash:
 	docker compose exec --user www backend sh
 

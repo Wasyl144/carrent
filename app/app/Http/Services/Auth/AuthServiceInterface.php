@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Services\Auth;
+namespace App\Http\Services\Auth;
 
 interface AuthServiceInterface
 {
     public function makeLogin();
+
     public function makeLogout();
 }

@@ -1,0 +1,80 @@
+openapi: 3.1.0
+x-stoplight:
+  id: qm51c0rvx8k8y
+info:
+  title: CarRent
+  version: '1.0'
+  summary: CarRent API Documentation
+servers:
+  - url: 'http://localhost/api/v1'
+paths:
+  /login:
+    post:
+      summary: Login
+      tags:
+        - Auth
+      responses:
+        '200':
+          $ref: '#/components/responses/LoginResponse'
+      operationId: Login
+      requestBody:
+        $ref: '#/components/requestBodies/LoginRequest'
+      parameters:
+        - schema:
+            type: string
+            default: application/json
+          in: header
+          name: accept
+  /logout:
+    post:
+      summary: ''
+      operationId: Logout
+      responses:
+        '204':
+          description: No Content
+      security:
+        - BearerToken: []
+      x-internal: false
+      tags:
+        - Auth
+    parameters: []
+components:
+  schemas: {}
+  securitySchemes:
+    BearerToken:
+      name: Bearer
+      type: apiKey
+      in: header
+  requestBodies:
+    LoginRequest:
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              email:
+                type: string
+              password:
+                type: string
+          examples:
+            Example 1:
+              value:
+                email: admin@admin.admin
+                password: Admin123.
+      description: Request Body for login
+  responses:
+    LoginResponse:
+      description: Example response
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              data:
+                type: object
+                properties:
+                  access_token:
+                    type: string
+                  user_id:
+                    type: string
+x-internal: false
