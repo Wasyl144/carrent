@@ -1,0 +1,47 @@
+version: '3.9'
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: docker/php/Dockerfile
+    working_dir: /app
+    environment:
+      APACHE_LOG_DIR: /alogs
+      DB_TYPE: mysql
+      DB_HOST: db
+      DB_NAME: carrent
+      DB_PORT: 3306
+      DB_USERNAME: carrent
+      DB_PASSWORD: carrent
+    volumes:
+      - ./app:/app
+      - ./docker/php/logs:/alogs
+    ports:
+      - "80:80"
+    networks:
+      - carrent
+  db:
+    image: mysql:5.7
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: carrent
+      MYSQL_USER: carrent
+      MYSQL_PASSWORD: carrent
+    ports:
+      - "3307:3306"
+    networks:
+      - carrent
+
+  phpmyadmin:
+    container_name: phpmyadmin
+    image: phpmyadmin/phpmyadmin:latest
+    restart: always
+    ports:
+      - "8081:80"
+    networks:
+      - carrent
+
+networks:
+  carrent:
+    name: carrent-network
