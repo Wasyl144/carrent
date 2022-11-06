@@ -2,11 +2,17 @@
 
 namespace App\Exceptions;
 
+use App\Traits\ResponseTrait;
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Support\Facades\Auth;
+use Symfony\Component\HttpFoundation\Response;
 use Throwable;
 
 class Handler extends ExceptionHandler
 {
+    use ResponseTrait;
+
     /**
      * A list of exception types with their corresponding custom log levels.
      *
@@ -43,8 +49,21 @@ class Handler extends ExceptionHandler
      */
     public function register()
     {
-        $this->reportable(function (Throwable $e) {
-            //
+        $this->renderable(function (UserNotFoundException $e) {
+            return $this->responseFailed($e->getMessage(), $e->getCode());
         });
+
+        $this->renderable(function (Throwable $e) {
+            return $this->responseFailed($e->getMessage());
+        });
+    }
+
+    protected function unauthenticated($request, AuthenticationException $exception)
+    {
+        if ($request->expectsJson() || Auth::guest()) {
+            return $this->responseFailed('Unauthorized.', Response::HTTP_UNAUTHORIZED);
+        }
+
+        return redirect()->guest(route('login'));
     }
 }

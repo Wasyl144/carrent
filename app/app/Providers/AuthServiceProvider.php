@@ -2,7 +2,10 @@
 
 namespace App\Providers;
 
-// use Illuminate\Support\Facades\Gate;
+use App\Http\Services\Auth\Login\LoginService;
+use App\Http\Services\Auth\Login\LoginServiceInterface;
+use App\Http\Services\Auth\Logout\LogoutService;
+use App\Http\Services\Auth\Logout\LogoutServiceInterface;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
 class AuthServiceProvider extends ServiceProvider
@@ -25,6 +28,7 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-        //
+        $this->app->bind(LoginServiceInterface::class, fn ($app) => new LoginService());
+        $this->app->bind(LogoutServiceInterface::class, fn ($app) => new LogoutService());
     }
 }
