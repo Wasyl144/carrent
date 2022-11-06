@@ -18,7 +18,7 @@ Route::prefix('v1')->group(function () {
         Route::get('/user', function (Request $request) {
             return $request->user();
         });
-        Route::post('/login', [\App\Http\Controllers\Auth\AuthController::class, 'logout']);
+        Route::post('/logout', [\App\Http\Controllers\Auth\AuthController::class, 'logout']);
     });
 
     Route::post('/login', [\App\Http\Controllers\Auth\AuthController::class, 'login']);

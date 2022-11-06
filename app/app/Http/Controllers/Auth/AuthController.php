@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
-use App\Http\Services\Auth\AuthServiceInterface;
+use App\Http\Requests\Auth\LogoutRequest;
+use App\Http\Services\Auth\Login\LoginServiceInterface;
+use App\Http\Services\Auth\Logout\LogoutServiceInterface;
 use App\Traits\ResponseTrait;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
@@ -12,25 +14,30 @@ use Illuminate\Http\Response;
 class AuthController extends Controller
 {
     use ResponseTrait;
+
     public function __construct(
-        AuthServiceInterface $authService
+        private LoginServiceInterface $loginService,
+        private LogoutServiceInterface $logoutService
     ) {
     }
 
     public function login(LoginRequest $request): JsonResponse
     {
-        try {
-            $dto = $request->getDto();
-            dd($dto);
-        } catch (\Exception $e){
+        $dto = $request->getDto();
+        $this->loginService->checkCredentials($dto);
+        $token = $this->loginService->getToken();
+        $user = $this->loginService->getUser();
 
-        }
-
-        return $this->responseSuccess([]);
+        return $this->responseSuccess([
+            'access_token' => $token,
+            'user_id' => $user->id,
+        ]);
     }
 
-    public function logout(): Response
+    public function logout(LogoutRequest $request): Response
     {
+        $this->logoutService->logout($request->user());
+
         return \response()->noContent();
     }
 }

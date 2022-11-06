@@ -21,6 +21,4 @@ class LoginDTO implements DTOInterface
     {
         return $this->password;
     }
-
-
 }

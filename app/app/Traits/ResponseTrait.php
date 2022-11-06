@@ -14,6 +14,6 @@ trait ResponseTrait
 
     public function responseFailed(?string $errorMessage, int $status = Response::HTTP_NOT_FOUND): JsonResponse
     {
-        return response()->json(['error' => $errorMessage, 'error_code' => $status, 'success' => true], $status)->header('Content-Type', 'application/json');
+        return response()->json(['error' => $errorMessage, 'error_code' => $status, 'success' => false], $status)->header('Content-Type', 'application/json');
     }
 }

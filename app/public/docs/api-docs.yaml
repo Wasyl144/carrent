@@ -24,7 +24,7 @@ paths:
             type: string
             default: application/json
           in: header
-          name: accept
+          name: Accept
   /logout:
     post:
       summary: ''
@@ -38,6 +38,14 @@ paths:
       tags:
         - Auth
     parameters: []
+  /user:
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses: {}
+      operationId: User
+      security:
+        - BearerToken: []
 components:
   schemas: {}
   securitySchemes:
