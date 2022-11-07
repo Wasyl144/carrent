@@ -58,6 +58,10 @@ class Handler extends ExceptionHandler
             return $this->responseFailed($e->getMessage(), $e->getCode());
         });
 
+        $this->renderable(function (UserHasBeenActivatedException $e) {
+            return $this->responseFailed($e->getMessage(), $e->getCode());
+        });
+
         $this->renderable(function (ValidationException $e) {
             return $this->responseFailed($e->getMessage(), Response::HTTP_UNPROCESSABLE_ENTITY);
         });

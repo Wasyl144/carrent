@@ -32,10 +32,11 @@ class ActivationController extends Controller
         $user = User::query()->where('email', '=', $dto->getEmail())->first();
         $this->activateAccountService->checkIsVerifiedUser($user);
         $this->activateAccountService->revokeTokensByEmail($user->email);
+        $this->activateAccountService->createActivationToken($user);
         $this->activateAccountService->sendActivationEmail($user);
 
         return $this->responseSuccess([
-            'message' => 'New link has been send',
+            'message' => 'New link has been sent.',
         ]);
     }
 }
