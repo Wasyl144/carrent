@@ -63,6 +63,16 @@ services:
     networks:
       - carrent
 
+  mailhog:
+    container_name: mailhog-carrent
+    image: mailhog/mailhog
+    restart: always
+    ports:
+      - "8025:8025"
+      - "1025:1025"
+    networks:
+      - carrent
+
 networks:
   carrent:
     name: carrent-network
