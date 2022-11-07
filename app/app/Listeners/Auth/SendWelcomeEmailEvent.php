@@ -14,8 +14,7 @@ class SendWelcomeEmailEvent
      */
     public function __construct(
         private readonly ActivationAccountServiceInterface $activationAccountService,
-    )
-    {
+    ) {
     }
 
     /**
