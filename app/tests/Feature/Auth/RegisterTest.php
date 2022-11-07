@@ -9,7 +9,8 @@ use Tests\FeatureBaseTest;
 class RegisterTest extends FeatureBaseTest
 {
     use WithFaker;
-    protected string $endpoint = "api/v1/register";
+
+    protected string $endpoint = 'api/v1/register';
 
     public function testShouldRegisterAccountIfProvideValidData()
     {
@@ -22,7 +23,7 @@ class RegisterTest extends FeatureBaseTest
             ->assertCreated()
             ->assertJsonStructure([
                 'data',
-                'success'
+                'success',
             ])->assertJsonPath('success', true);
     }
 
@@ -37,7 +38,7 @@ class RegisterTest extends FeatureBaseTest
             ->assertCreated()
             ->assertJsonStructure([
                 'data',
-                'success'
+                'success',
             ])->assertJsonPath('success', true);
 
         $dummyData = $this->getUserDummyData();
@@ -47,7 +48,7 @@ class RegisterTest extends FeatureBaseTest
             ->assertCreated()
             ->assertJsonStructure([
                 'data',
-                'success'
+                'success',
             ])->assertJsonPath('success', true);
     }
 
@@ -65,17 +66,5 @@ class RegisterTest extends FeatureBaseTest
             ->postJson($this->getEndpoint(), $dummyData)
             ->assertUnprocessable()
             ->assertJsonPath('success', false);
-    }
-
-    public function getUserDummyData(): array
-    {
-        $dummyData = [
-            'name' => $this->faker->name,
-            'last_name' => $this->faker->lastName,
-            'email' => $this->faker->safeEmail,
-            'password' => 'Example123.',
-            'password_confirmation' => 'Example123.',
-        ];
-        return $dummyData;
     }
 }

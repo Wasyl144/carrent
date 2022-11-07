@@ -22,12 +22,16 @@ class ActivationAccountService implements ActivationAccountServiceInterface
             ->where('expires', '>', Carbon::now())
             ->first();
 
-        if (! $token) {
+        if (!$token) {
             throw new TokenNotFoundException();
         }
 
-        $user = User::query()->where('email', '=', $token->email)->first();
-        if (! $user) {
+        $user = User::query()
+            ->where('email', '=', $token->email)
+            ->whereNull('email_verified_at')
+            ->first();
+
+        if (!$user) {
             throw new UserNotFoundException();
         }
         $user->markEmailAsVerified();
@@ -67,7 +71,7 @@ class ActivationAccountService implements ActivationAccountServiceInterface
 
     public function checkIsVerifiedUser(User $user): void
     {
-        if (! $user->hasVerifiedEmail()) {
+        if (!$user->hasVerifiedEmail()) {
             return;
         }
 
