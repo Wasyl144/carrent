@@ -7,14 +7,11 @@ use App\Http\Requests\Auth\LoginRequest;
 use App\Http\Requests\Auth\LogoutRequest;
 use App\Http\Services\Auth\Login\LoginServiceInterface;
 use App\Http\Services\Auth\Logout\LogoutServiceInterface;
-use App\Traits\ResponseTrait;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
 
 class AuthController extends Controller
 {
-    use ResponseTrait;
-
     public function __construct(
         private LoginServiceInterface $loginService,
         private LogoutServiceInterface $logoutService

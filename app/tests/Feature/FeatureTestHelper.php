@@ -3,11 +3,13 @@
 namespace Tests\Feature;
 
 use App\Models\User;
+use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Artisan;
 use Laravel\Passport\PersonalAccessClient;
 
 trait FeatureTestHelper
 {
+    use WithFaker;
     protected function getEndpoint(): string
     {
         return $this->url.$this->endpoint;
@@ -55,5 +57,18 @@ trait FeatureTestHelper
             'email' => $user->email,
             'password' => self::USER_DEFAULT_PASSWORD,
         ])->json('data.access_token');
+    }
+
+    public function getUserDummyData(): array
+    {
+        $dummyData = [
+            'name' => $this->faker->name,
+            'last_name' => $this->faker->lastName,
+            'email' => $this->faker->safeEmail,
+            'password' => 'Example123.',
+            'password_confirmation' => 'Example123.',
+        ];
+
+        return $dummyData;
     }
 }

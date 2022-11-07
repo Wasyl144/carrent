@@ -16,6 +16,8 @@ paths:
       responses:
         '200':
           $ref: '#/components/responses/LoginResponse'
+        '404':
+          $ref: '#/components/responses/ErrorResponse'
       operationId: Login
       requestBody:
         $ref: '#/components/requestBodies/LoginRequest'
@@ -46,6 +48,19 @@ paths:
       operationId: User
       security:
         - BearerToken: []
+  /register:
+    post:
+      summary: ''
+      operationId: Register
+      requestBody:
+        $ref: '#/components/requestBodies/RegisterRequest'
+      tags:
+        - Auth
+      responses:
+        '201':
+          $ref: '#/components/responses/RegisterResponse'
+        '422':
+          $ref: '#/components/responses/ErrorResponse'
 components:
   schemas: {}
   securitySchemes:
@@ -70,6 +85,24 @@ components:
                 email: admin@admin.admin
                 password: Admin123.
       description: Request Body for login
+    RegisterRequest:
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              name:
+                type: string
+              last_name:
+                type: string
+              email:
+                type: string
+              password:
+                type: string
+              password_confirmation:
+                type: string
+              phone_number:
+                type: string
   responses:
     LoginResponse:
       description: Example response
@@ -85,4 +118,52 @@ components:
                     type: string
                   user_id:
                     type: string
+    RegisterResponse:
+      description: Example response
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              data:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  user:
+                    type: object
+                    properties:
+                      id:
+                        type: number
+                      attributes:
+                        type: object
+                        properties:
+                          name:
+                            type: string
+                          last_name:
+                            type: string
+                          full_name:
+                            type: string
+                          email:
+                            type: string
+              success:
+                type: boolean
+    ErrorResponse:
+      description: Example response
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+              error_code:
+                type: integer
+              success:
+                type: boolean
+            x-examples:
+              Example 1:
+                error: The email has already been taken.
+                error_code: 422
+                success: false
 x-internal: false

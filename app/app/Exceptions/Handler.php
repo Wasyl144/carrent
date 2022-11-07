@@ -6,6 +6,7 @@ use App\Traits\ResponseTrait;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpFoundation\Response;
 use Throwable;
 
@@ -51,6 +52,18 @@ class Handler extends ExceptionHandler
     {
         $this->renderable(function (UserNotFoundException $e) {
             return $this->responseFailed($e->getMessage(), $e->getCode());
+        });
+
+        $this->renderable(function (TokenNotFoundException $e) {
+            return $this->responseFailed($e->getMessage(), $e->getCode());
+        });
+
+        $this->renderable(function (UserHasBeenActivatedException $e) {
+            return $this->responseFailed($e->getMessage(), $e->getCode());
+        });
+
+        $this->renderable(function (ValidationException $e) {
+            return $this->responseFailed($e->getMessage(), Response::HTTP_UNPROCESSABLE_ENTITY);
         });
 
         $this->renderable(function (Throwable $e) {

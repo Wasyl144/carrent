@@ -22,4 +22,7 @@ Route::prefix('v1')->group(function () {
     });
 
     Route::post('/login', [\App\Http\Controllers\Auth\AuthController::class, 'login']);
+    Route::post('/register', [\App\Http\Controllers\Auth\RegisterController::class, 'store']);
+    Route::get('/activate-account', [\App\Http\Controllers\Auth\ActivationController::class, 'activateAccount'])->name('auth.activate_account');
+    Route::post('/resend-activation-link', [\App\Http\Controllers\Auth\ActivationController::class, 'resendActivationEmail']);
 });
